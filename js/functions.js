@@ -98,3 +98,81 @@ const high5 = () => {
 };
 
 document.body.addEventListener("click", high5); // Here high5 is the callback function
+
+// Function Returning Functions
+
+const printName = (firstname) => {
+  return (lastname) => {
+    console.log(`Your name is ${firstname} ${lastname}`);
+  };
+};
+
+const fullname = printName("Mark");
+fullname("Johnson"); // Result - Your name is Mark Johnson
+fullname("Martin"); // Result - Your name is Mark Martin
+printName("Mitchelle")("Johnson"); // Result - Your name is Mitchelle Johnson
+
+const countIncrease = (count) => {
+  return () => {
+    count += 1;
+    let p = document.querySelector(".counter");
+    p.textContent = count;
+    console.log(count);
+  };
+};
+
+const increment = countIncrease(0);
+document.body.addEventListener("keydown", increment);
+
+// Closures
+
+//Global Scope
+let a = 0;
+
+// Function Scope
+const myFunction = () => {
+  let b = 1;
+  console.log(a); // Result - 0
+  console.log(b); // Result - 1
+};
+
+myFunction();
+console.log(a);
+// console.log(b); // Error - Uncaught ReferenceError: b is not defined (b is in the function scope & not in the global scope)
+
+// Examples - Closures
+
+// 1.
+const getWelcomeMessage = () => {
+  let message = "Hello Welcome,";
+
+  return (name) => {
+    return message + name;
+  };
+};
+
+const greeting = getWelcomeMessage();
+console.log(greeting("Johnson"));
+
+// 2.
+let x = 2;
+
+const addNumber1 = (y) => {
+  return (z) => {
+    return x + y + z;
+  };
+};
+
+const result1 = addNumber1(3);
+console.log(result1(5));
+
+// 3.
+const addNumber2 = (m) => {
+  let n = 2;
+  return (o) => {
+    return m + n + o;
+  };
+};
+
+const result2 = addNumber2(2);
+console.log(result2(2));
