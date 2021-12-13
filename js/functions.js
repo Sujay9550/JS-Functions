@@ -176,3 +176,98 @@ const addNumber2 = (m) => {
 
 const result2 = addNumber2(2);
 console.log(result2(2));
+
+// Call & Apply Methods - (Used to merge a functon)
+
+const vishal = {
+  busOperator: "Vishal Tourist",
+  busCode: "VT",
+  bookings: [],
+
+  bookBus(busNumber, passengerName) {
+    console.log(
+      `${passengerName} has booked a seat in ${this.busOperator} bus ${this.busCode}${busNumber}`
+    );
+
+    this.bookings.push({
+      bus: `${this.busOperator} ${this.busCode}${busNumber}`,
+      name: passengerName,
+    });
+  },
+};
+
+const sugama = {
+  busOperator: "Sugama Tourist",
+  busCode: "ST",
+  bookings: [],
+};
+
+const anand = {
+  busOperator: "Anand Tourist",
+  busCode: "AT",
+  bookings: [],
+};
+
+// Storing bookBus method in the variable
+const bookingBus = vishal.bookBus;
+
+vishal.bookBus(3480, "Arjun");
+vishal.bookBus(3480, "Akash");
+console.log(vishal);
+
+// Using the Call Method
+
+bookingBus.call(sugama, 6724, "John");
+bookingBus.call(sugama, 6724, "James");
+console.log(sugama);
+
+// Using the Apply Method - This method will take arguments as an array
+const busData1 = [4520, "Anish"];
+bookingBus.apply(anand, busData1); // Not used in modern javascript
+
+// Instead use below methods
+const busData2 = [4520, "Amith"];
+bookingBus.call(anand, ...busData2);
+console.log(anand);
+
+// The Bind Method - lets us to manually set the this keyword for any function call. it return a new function. store the function in a new variable
+
+const orange = {
+  busOperator: "Orange Tourist",
+  busCode: "OT",
+  bookings: [],
+
+  bookBus(busNumber, passengerName) {
+    console.log(
+      `${passengerName} has booked a seat in ${this.busOperator} bus ${this.busCode}${busNumber}`
+    );
+
+    this.bookings.push({
+      bus: `${this.busOperator} ${this.busCode}${busNumber}`,
+      name: passengerName,
+    });
+  },
+};
+
+const book = orange.bookBus;
+console.log(book);
+
+const bookST = book.bind(sugama);
+bookST(35, "Steeve");
+
+// Bind Method - With Event Listeners
+
+orange.bus = 20;
+orange.buyBus = function () {
+  console.log(this);
+
+  this.bus++;
+  console.log(this.bus);
+};
+
+// document.querySelector(".btn").addEventListener("click", orange.buyBus);
+// As seen now in the above code, the this keyword is pointed to the btn button, hence we will not get the desired result.
+// Hence use the Bind Method to manually set the this keyword to the orange object
+document
+  .querySelector(".btn")
+  .addEventListener("click", orange.buyBus.bind(orange));
